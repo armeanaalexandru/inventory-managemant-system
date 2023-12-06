@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --teal: #00747c;
+  --egg-blue: #00bbc9;
+  --silver: #cacaca;
+  --gray: #878787;
+  --shark: #202022;
+
+  color: var(--shark);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+
+  font-size: 16px;
+}
