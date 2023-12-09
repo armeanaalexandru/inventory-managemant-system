@@ -1,10 +1,33 @@
 .navigation {
-  display: flex;
-  justify-content: space-between;
+  box-shadow: 5px 7px 15px 0px rgba(0, 0, 0, 0.1);
 }
 
 .mainNavigation,
 .authNavigation {
   display: flex;
   gap: 10px;
+  font-size: 16px;
+
+  @media screen and (max-width: 992px) {
+    gap: unset;
+  }
+
+  & a {
+    padding: 10px;
+    color: var(--shark);
+    font-weight: 600;
+    text-decoration: none;
+
+    @media screen and (max-width: 992px) {
+      padding: 10px 0;
+    }
+
+    &:hover {
+      color: var(--egg-blue);
+    }
+  }
+}
+
+.brandLogo {
+  width: 150px;
 }

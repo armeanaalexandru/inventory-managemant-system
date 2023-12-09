@@ -1,0 +1,16 @@
+.notFoundTitle {
+  color: var(--egg-blue);
+  font-size: 48px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
+.notFoundNumbers {
+  color: var(--shark);
+  font-size: 128px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
+.notFoundDescription {
+}

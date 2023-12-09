@@ -4,7 +4,7 @@ import styles from "./InventoryList.module.css";
 export function InventoryList() {
   return (
     <>
-      <h1>Inventory</h1>
+      <h1>Invetar</h1>
     </>
   );
 }
