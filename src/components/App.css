@@ -26,6 +26,14 @@ img {
   margin-bottom: 70px;
 }
 
+.card {
+  background-color: var(--white);
+  border: none !important;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 5px 7px 15px 0px rgba(0, 0, 0, 0.2);
+}
+
 .mainTitle {
   color: var(--teal);
   font-size: 48px;
@@ -55,4 +63,7 @@ img {
 
 .active {
   color: var(--egg-blue) !important;
+}
+
+@media only screen and (max-width: 992px) {
 }

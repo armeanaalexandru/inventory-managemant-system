@@ -21,12 +21,12 @@ export function MainNav() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className={`me-auto ${styles.mainNavigation}`}>
-            <NavLink to="/despre-noi">Despre Noi</NavLink>
-            <NavLink to="/inventar">Inventar</NavLink>
+            <NavLink to="/about-us">About Us</NavLink>
+            <NavLink to="/inventory">Inventory</NavLink>
           </Nav>
           <Nav className={styles.authNavigation}>
-            <NavLink to="/log-in">Conectează-te</NavLink>
-            <NavLink to="/register">Înregistrează-te</NavLink>
+            <NavLink to="/authentication">Login</NavLink>
+            <NavLink to="/authentication">Register</NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -8,12 +8,12 @@ export function NotFound() {
     <Container className="vh-100 d-flex align-items-center justify-content-center">
       <Row>
         <Col className="text-center">
-          <h1 className={styles.notFoundTitle}>Uppsss. Te-ai pierdut.</h1>
+          <h1 className={styles.notFoundTitle}>Oops. You are lost.</h1>
           <p className={styles.notFoundNumbers}>404</p>
-          <p>Pagina pe care o cauți ar putea fi într-un alt castel.</p>
+          <p>The page you are looking for might be in another castle.</p>
           <div className="my-5">
             <NavLink className="primaryButton" to="/">
-              Înapoi acasă
+              Back home
             </NavLink>
           </div>
         </Col>

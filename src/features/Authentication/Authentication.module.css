@@ -1,0 +1,12 @@
+.authenticationButton {
+  background-color: var(--teal) !important;
+  color: var(--white) !important;
+  text-decoration: none !important;
+  border: 1px solid var(--teal) !important;
+  border-radius: 5px !important;
+
+  &:hover {
+    background-color: var(--white) !important;
+    color: var(--teal) !important;
+  }
+}

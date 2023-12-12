@@ -1,10 +1,7 @@
 import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 import styles from "./Home.module.css";
-
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 export function Home() {
   return (
@@ -13,23 +10,19 @@ export function Home() {
         <Row>
           <Col lg={{ order: "last" }}>
             <div className="h-100 d-flex justify-content-center align-items-center">
-              <img
-                src="./images/placeholder-img.png"
-                alt="placeholder"
-                className={styles.brandLogo}
-              />
+              <img src="./images/placeholder-img.png" alt="placeholder" />
             </div>
           </Col>
           <Col lg={{ span: 5, order: "first" }}>
-            <h1 className="mainTitle">Control total al inventarului tău</h1>
+            <h1 className="mainTitle">Total control of your inventory</h1>
             <p className="mainDescription">
-              Simplu de utilizat și extrem de intuitiv, Ventoroo optimizează
-              procesele de monitorizare și administrare a produselor într-un mod
-              care îți aduce eficiență în activitatea zilnică.
+              Easy to use and highly intuitive, Ventoroo optimizes the processes
+              of monitoring and managing products in a way that brings
+              efficiency to your daily operations.
             </p>
 
-            <NavLink className="primaryButton" to="/log-in">
-              Începe acum
+            <NavLink className="primaryButton" to="/authentication">
+              Start Now
             </NavLink>
           </Col>
         </Row>
