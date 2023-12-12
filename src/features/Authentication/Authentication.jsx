@@ -33,7 +33,7 @@ export function Authentication() {
                         type="submit"
                         className={styles.authenticationButton}
                       >
-                        Log in
+                        Register
                       </Button>
                       <p className="my-2">
                         New user? You can register{" "}
