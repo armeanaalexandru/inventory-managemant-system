@@ -1,10 +1,26 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Table,
+  Button,
+  Modal,
+  ToastBody,
+  Form,
+} from "react-bootstrap";
 import styles from "./InventoryList.module.css";
 
 export function InventoryList() {
+  const [items, setItems] = useState(null);
   const [showInvetoryModal, setShowInvetoryModal] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/items")
+      .then((response) => response.json())
+      .then((data) => setItems(data));
+  }, []);
 
   const handleCloseModal = () => setShowInvetoryModal(false);
   const handleShowModal = () => setShowInvetoryModal(true);
@@ -40,22 +56,23 @@ export function InventoryList() {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* Add your table rows here */}
-                    <tr>
-                      <td className="text-center">1</td>
-                      <td>Item 1</td>
-                      <td className="text-center">10</td>
-                      <td className="text-center">12-12-2023</td>
-                      <td className="text-center">
-                        <Button variant="primary">View</Button>
-                      </td>
-                      <td className="text-center">
-                        <Button variant="primary">Edit</Button>
-                      </td>
-                      <td className="text-center">
-                        <Button variant="danger">Delete</Button>
-                      </td>
-                    </tr>
+                    {items?.map((item) => (
+                      <tr key={item.id}>
+                        <td className="text-center">{item.id}</td>
+                        <td>{item.name}</td>
+                        <td className="text-center">{item.quantity}</td>
+                        <td className="text-center">{item.addedDate}</td>
+                        <td className="text-center">
+                          <Button variant="primary">View</Button>
+                        </td>
+                        <td className="text-center">
+                          <Button variant="primary">Edit</Button>
+                        </td>
+                        <td className="text-center">
+                          <Button variant="danger">Delete</Button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </div>
@@ -63,19 +80,55 @@ export function InventoryList() {
           </Row>
         </Container>
       </section>
-      <Modal show={showInvetoryModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add new item to your invetory</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Here comes the form to add items!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+      <Modal show={showInvetoryModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body>
+          <Form>
+            <p className="secondaryTitle">Add new item to your invetory</p>
+            <Form.Group className="mb-3" controlId="addItemName">
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control placeholder="Enter item name" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="addItemDescription">
+              <Form.Label>Item Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="Enter item description"
+              />
+            </Form.Group>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3" controlId="addItemQuantity">
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter item quantity"
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3" controlId="addItemDate">
+                  <Form.Label>Date Added</Form.Label>
+                  <Form.Control type="date" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-end gap-2">
+                <Button variant="secondary" onClick={handleCloseModal}>
+                  Close
+                </Button>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={handleCloseModal}
+                >
+                  Add Item
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Modal.Body>
       </Modal>
     </>
   );

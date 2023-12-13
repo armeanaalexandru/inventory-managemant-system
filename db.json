@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "alexandru.armeana@gmail.com",
+      "password": "demoPass21!",
+      "firstName": "Alexandru",
+      "lastName": "Armeană"
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "Laptop",
+      "quantity": 20,
+      "addedDate": "15-01-2023"
+    },
+    {
+      "id": 2,
+      "name": "Desk Chair",
+      "quantity": 30,
+      "addedDate": "02-02-2023"
+    },
+    {
+      "id": 3,
+      "name": "Conference Table",
+      "quantity": 5,
+      "addedDate": "10-03-2023"
+    },
+    {
+      "id": 4,
+      "name": "Printer",
+      "quantity": 10,
+      "addedDate": "05-04-2023"
+    },
+    {
+      "id": 5,
+      "name": "Whiteboard",
+      "quantity": 15,
+      "addedDate": "20-05-2023"
+    },
+    {
+      "id": 6,
+      "name": "Office Plants",
+      "quantity": 8,
+      "addedDate": "08-06-2023"
+    },
+    {
+      "id": 7,
+      "name": "File Cabinets",
+      "quantity": 12,
+      "addedDate": "15-07-2023"
+    },
+    {
+      "id": 8,
+      "name": "Desk Lamps",
+      "quantity": 25,
+      "addedDate": "22-08-2023"
+    },
+    {
+      "id": 9,
+      "name": "Keyboard and Mouse Set",
+      "quantity": 40,
+      "addedDate": "18-09-2023"
+    },
+    {
+      "id": 10,
+      "name": "Telephone System",
+      "quantity": 5,
+      "addedDate": "12-10-2023"
+    }
+  ]
+}

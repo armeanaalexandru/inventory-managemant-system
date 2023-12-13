@@ -41,6 +41,13 @@ img {
   margin: 12px 0;
 }
 
+.secondaryTitle {
+  color: var(--shark);
+  font-size: 28px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
 .mainDescription {
   margin-bottom: 30px;
   color: var(--shark);
