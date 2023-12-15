@@ -15,6 +15,8 @@ import styles from "./InventoryList.module.css";
 export function InventoryList() {
   const [items, setItems] = useState(null);
   const [showInvetoryModal, setShowInvetoryModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     itemName: "",
@@ -36,6 +38,18 @@ export function InventoryList() {
 
   const handleCloseModal = () => setShowInvetoryModal(false);
   const handleShowModal = () => setShowInvetoryModal(true);
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setItemToDelete(null);
+  };
+
+  const handleShowDeleteModal = (itemId) => {
+    const itemObject = items.find((item) => item.id === itemId);
+    setShowDeleteModal(true);
+    setItemToDelete(itemObject);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -81,33 +95,48 @@ export function InventoryList() {
         setItems((prevItems) => [...prevItems, addedItem]);
         toast.success(`${formData.itemName} has been added to the list.`);
         handleCloseModal();
+
+        setFormData({
+          itemName: "",
+          itemDescription: "",
+          itemQuantity: "",
+          itemDate: "",
+          itemSerialNumber: "",
+        });
       } catch (error) {
         console.error("Error adding item:", error);
         toast.error(error);
       }
     }
-
     setValidated(true);
   }
 
-  async function handleDeleteItem(itemId) {
+  async function handleDeleteItemConfirmed() {
     try {
-      const response = await fetch(`http://localhost:3000/items/${itemId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/items/${itemToDelete.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
 
-      // Remove the deleted item from the local state
-      setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+      setItems((prevItems) =>
+        prevItems.filter((item) => item.id !== itemToDelete.id)
+      );
+
+      toast.success(`${itemToDelete.name} has been deleted.`);
     } catch (error) {
+      toast.error("Failed to delete item.");
       console.error("Error deleting item:", error);
-      // Handle error, show a message to the user, etc.
+    } finally {
+      handleCloseDeleteModal();
     }
   }
 
@@ -118,6 +147,10 @@ export function InventoryList() {
         <Container>
           <Row>
             <Col>
+              <div className="my-3 mainDescription">
+                This is your current item list. Add new items or view/delete
+                items from the action buttons.
+              </div>
               <Button variant="primary" onClick={handleShowModal}>
                 <i className="bi bi-clipboard-plus"></i> Add Item
               </Button>
@@ -125,12 +158,12 @@ export function InventoryList() {
           </Row>
         </Container>
       </section>
-      <section className="section">
+      <section className="mt-3 section">
         <Container>
           <Row className="justify-content-center align-items-center">
             <Col>
               <div className="card">
-                <Table striped bordered hover>
+                <Table responsive striped bordered hover>
                   <thead>
                     <tr>
                       <th></th>
@@ -144,33 +177,44 @@ export function InventoryList() {
                     </tr>
                   </thead>
                   <tbody>
-                    {items?.map((item) => (
-                      <tr key={item.id}>
-                        <td className="text-center align-middle">{item.id}</td>
-                        <td className="text-center align-middle">
-                          {item.serialNumber}
-                        </td>
+                    {items && items.length > 0 ? (
+                      items?.map((item) => (
+                        <tr key={item.id}>
+                          <td className="text-center align-middle">
+                            {item.id}
+                          </td>
+                          <td className="text-center align-middle">
+                            {item.serialNumber}
+                          </td>
 
-                        <td className="align-middle">{item.name}</td>
-                        <td className="text-center align-middle">
-                          {item.quantity}
-                        </td>
-                        <td className="text-center align-middle">
-                          {item.addedDate}
-                        </td>
-                        <td className="text-center align-middle">
-                          <Button variant="primary">View</Button>
-                        </td>
-                        <td className="text-center align-middle">
-                          <Button
-                            variant="danger"
-                            onClick={() => handleDeleteItem(item.id)}
-                          >
-                            Delete
-                          </Button>
+                          <td className="align-middle">{item.name}</td>
+                          <td className="text-center align-middle">
+                            {item.quantity}
+                          </td>
+                          <td className="text-center align-middle">
+                            {item.addedDate}
+                          </td>
+                          <td className="text-center align-middle">
+                            <Button variant="primary">View</Button>
+                          </td>
+                          <td className="text-center align-middle">
+                            <Button
+                              variant="danger"
+                              onClick={() => handleShowDeleteModal(item.id)}
+                            >
+                              Delete
+                            </Button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={7} className="text-center">
+                          There are no items in your list. Start adding new
+                          items.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </Table>
               </div>
@@ -184,7 +228,7 @@ export function InventoryList() {
           <Form noValidate validated={validated} onSubmit={handleAddItem}>
             <p className="secondaryTitle">Add new item to your invetory</p>
             <Form.Group className="mb-3" controlId="addSerialNumberName">
-              <Form.Label>Item Name</Form.Label>
+              <Form.Label>Serial Number</Form.Label>
               <Form.Control
                 required
                 placeholder="Enter item serial number"
@@ -251,6 +295,24 @@ export function InventoryList() {
               </Col>
             </Row>
           </Form>
+        </Modal.Body>
+      </Modal>
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body>
+          <p className="mb-5 text-center">
+            Are you sure you want to delete <b>{itemToDelete?.name}</b>?
+          </p>
+          <Row>
+            <Col className="d-flex justify-content-center gap-2">
+              <Button variant="secondary" onClick={handleCloseDeleteModal}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={handleDeleteItemConfirmed}>
+                Delete
+              </Button>
+            </Col>
+          </Row>
         </Modal.Body>
       </Modal>
     </>
