@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Container,
@@ -9,18 +9,20 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
 import styles from "./InventoryList.module.css";
 
 export function InventoryList() {
+  const [items, setItems] = useState(null);
+  const [showInvetoryModal, setShowInvetoryModal] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     itemName: "",
     itemDescription: "",
     itemQuantity: "",
     itemDate: "",
+    itemSerialNumber: "",
   });
-
-  const [items, setItems] = useState(null);
-  const [showInvetoryModal, setShowInvetoryModal] = useState(false);
 
   useEffect(() => {
     async function getItemList() {
@@ -34,7 +36,6 @@ export function InventoryList() {
 
   const handleCloseModal = () => setShowInvetoryModal(false);
   const handleShowModal = () => setShowInvetoryModal(true);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -44,25 +45,70 @@ export function InventoryList() {
   };
 
   async function handleAddItem(e) {
-    e.preventDefault();
+    const addNewItemForm = e.currentTarget;
 
-    const newItem = {
-      name: formData.itemName,
-      description: formData.itemDescription,
-      quantity: formData.itemQuantity,
-      addedDate: formData.itemDate,
-    };
+    if (addNewItemForm.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      toast.error("Please fill the required fields.");
+    } else {
+      e.preventDefault();
 
-    const item = fetch("http://localhost:3000/items", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(newItem),
-    }).then((response) => response.json());
+      const newItem = {
+        name: formData.itemName,
+        description: formData.itemDescription,
+        quantity: formData.itemQuantity,
+        addedDate: formData.itemDate,
+        serialNumber: formData.itemSerialNumber,
+      };
 
-    setItems([...items, item]);
-    handleCloseModal();
+      try {
+        const itemData = await fetch("http://localhost:3000/items", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(newItem),
+        });
+
+        if (!itemData.ok) {
+          toast.error("Failed to add item");
+          throw new Error("Failed to add item");
+        }
+
+        const addedItem = await itemData.json();
+
+        setItems((prevItems) => [...prevItems, addedItem]);
+        toast.success(`${formData.itemName} has been added to the list.`);
+        handleCloseModal();
+      } catch (error) {
+        console.error("Error adding item:", error);
+        toast.error(error);
+      }
+    }
+
+    setValidated(true);
+  }
+
+  async function handleDeleteItem(itemId) {
+    try {
+      const response = await fetch(`http://localhost:3000/items/${itemId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete item");
+      }
+
+      // Remove the deleted item from the local state
+      setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      // Handle error, show a message to the user, etc.
+    }
   }
 
   return (
@@ -88,6 +134,7 @@ export function InventoryList() {
                   <thead>
                     <tr>
                       <th></th>
+                      <th className="text-center align-middle">Serial No.</th>
                       <th className="text-center align-middle">Item</th>
                       <th className="text-center align-middle">Quantity</th>
                       <th className="text-center align-middle">Date Added</th>
@@ -100,6 +147,10 @@ export function InventoryList() {
                     {items?.map((item) => (
                       <tr key={item.id}>
                         <td className="text-center align-middle">{item.id}</td>
+                        <td className="text-center align-middle">
+                          {item.serialNumber}
+                        </td>
+
                         <td className="align-middle">{item.name}</td>
                         <td className="text-center align-middle">
                           {item.quantity}
@@ -111,10 +162,12 @@ export function InventoryList() {
                           <Button variant="primary">View</Button>
                         </td>
                         <td className="text-center align-middle">
-                          <Button variant="primary">Edit</Button>
-                        </td>
-                        <td className="text-center align-middle">
-                          <Button variant="danger">Delete</Button>
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDeleteItem(item.id)}
+                          >
+                            Delete
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -128,11 +181,22 @@ export function InventoryList() {
       <Modal show={showInvetoryModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleAddItem}>
+          <Form noValidate validated={validated} onSubmit={handleAddItem}>
             <p className="secondaryTitle">Add new item to your invetory</p>
+            <Form.Group className="mb-3" controlId="addSerialNumberName">
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control
+                required
+                placeholder="Enter item serial number"
+                name="itemSerialNumber"
+                value={formData.itemSerialNumber}
+                onChange={handleChange}
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="addItemName">
               <Form.Label>Item Name</Form.Label>
               <Form.Control
+                required
                 placeholder="Enter item name"
                 name="itemName"
                 value={formData.itemName}
@@ -154,6 +218,7 @@ export function InventoryList() {
                 <Form.Group className="mb-3" controlId="addItemQuantity">
                   <Form.Label>Quantity</Form.Label>
                   <Form.Control
+                    required
                     type="number"
                     placeholder="Enter item quantity"
                     name="itemQuantity"
@@ -166,6 +231,7 @@ export function InventoryList() {
                 <Form.Group className="mb-3" controlId="addItemDate">
                   <Form.Label>Date Added</Form.Label>
                   <Form.Control
+                    required
                     type="date"
                     name="itemDate"
                     value={formData.itemDate}

@@ -6,7 +6,9 @@ import { AboutUs } from "../features/AboutUs/AboutUs";
 import { Authentication } from "../features/Authentication/Authentication";
 import { InventoryList } from "../features/InventoryList/InventoryList";
 import { NotFound } from "../features/NotFound/NotFound";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.min.css";
 import "./App.css";
 
 export default function App() {
@@ -20,6 +22,7 @@ export default function App() {
         <Route path="authentication" element={<Authentication />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }
