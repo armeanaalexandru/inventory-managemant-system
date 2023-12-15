@@ -7,23 +7,64 @@ import {
   Table,
   Button,
   Modal,
-  ToastBody,
   Form,
 } from "react-bootstrap";
 import styles from "./InventoryList.module.css";
 
 export function InventoryList() {
+  const [formData, setFormData] = useState({
+    itemName: "",
+    itemDescription: "",
+    itemQuantity: "",
+    itemDate: "",
+  });
+
   const [items, setItems] = useState(null);
   const [showInvetoryModal, setShowInvetoryModal] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/items")
-      .then((response) => response.json())
-      .then((data) => setItems(data));
+    async function getItemList() {
+      const data = await fetch("http://localhost:3000/items").then((response) =>
+        response.json()
+      );
+      setItems(data);
+    }
+    getItemList();
   }, []);
 
   const handleCloseModal = () => setShowInvetoryModal(false);
   const handleShowModal = () => setShowInvetoryModal(true);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  async function handleAddItem(e) {
+    e.preventDefault();
+
+    const newItem = {
+      name: formData.itemName,
+      description: formData.itemDescription,
+      quantity: formData.itemQuantity,
+      addedDate: formData.itemDate,
+    };
+
+    const item = fetch("http://localhost:3000/items", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(newItem),
+    }).then((response) => response.json());
+
+    setItems([...items, item]);
+    handleCloseModal();
+  }
+
   return (
     <>
       <section className="mb-0 introSection">
@@ -47,10 +88,10 @@ export function InventoryList() {
                   <thead>
                     <tr>
                       <th></th>
-                      <th className="text-center">Item</th>
-                      <th className="text-center">Quantity</th>
-                      <th className="text-center">Date Added</th>
-                      <th className="text-center" colSpan={3}>
+                      <th className="text-center align-middle">Item</th>
+                      <th className="text-center align-middle">Quantity</th>
+                      <th className="text-center align-middle">Date Added</th>
+                      <th className="text-center align-middle" colSpan={3}>
                         Actions
                       </th>
                     </tr>
@@ -58,17 +99,21 @@ export function InventoryList() {
                   <tbody>
                     {items?.map((item) => (
                       <tr key={item.id}>
-                        <td className="text-center">{item.id}</td>
-                        <td>{item.name}</td>
-                        <td className="text-center">{item.quantity}</td>
-                        <td className="text-center">{item.addedDate}</td>
-                        <td className="text-center">
+                        <td className="text-center align-middle">{item.id}</td>
+                        <td className="align-middle">{item.name}</td>
+                        <td className="text-center align-middle">
+                          {item.quantity}
+                        </td>
+                        <td className="text-center align-middle">
+                          {item.addedDate}
+                        </td>
+                        <td className="text-center align-middle">
                           <Button variant="primary">View</Button>
                         </td>
-                        <td className="text-center">
+                        <td className="text-center align-middle">
                           <Button variant="primary">Edit</Button>
                         </td>
-                        <td className="text-center">
+                        <td className="text-center align-middle">
                           <Button variant="danger">Delete</Button>
                         </td>
                       </tr>
@@ -83,17 +128,25 @@ export function InventoryList() {
       <Modal show={showInvetoryModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleAddItem}>
             <p className="secondaryTitle">Add new item to your invetory</p>
             <Form.Group className="mb-3" controlId="addItemName">
               <Form.Label>Item Name</Form.Label>
-              <Form.Control placeholder="Enter item name" />
+              <Form.Control
+                placeholder="Enter item name"
+                name="itemName"
+                value={formData.itemName}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group className="mb-3" controlId="addItemDescription">
               <Form.Label>Item Description</Form.Label>
               <Form.Control
                 as="textarea"
                 placeholder="Enter item description"
+                name="itemDescription"
+                value={formData.itemDescription}
+                onChange={handleChange}
               />
             </Form.Group>
             <Row>
@@ -103,13 +156,21 @@ export function InventoryList() {
                   <Form.Control
                     type="number"
                     placeholder="Enter item quantity"
+                    name="itemQuantity"
+                    value={formData.itemQuantity}
+                    onChange={handleChange}
                   />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group className="mb-3" controlId="addItemDate">
                   <Form.Label>Date Added</Form.Label>
-                  <Form.Control type="date" />
+                  <Form.Control
+                    type="date"
+                    name="itemDate"
+                    value={formData.itemDate}
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -118,11 +179,7 @@ export function InventoryList() {
                 <Button variant="secondary" onClick={handleCloseModal}>
                   Close
                 </Button>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={handleCloseModal}
-                >
+                <Button variant="primary" type="submit">
                   Add Item
                 </Button>
               </Col>

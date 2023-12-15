@@ -16,9 +16,13 @@ img {
   height: auto;
 }
 
+.container {
+  max-width: 1420px !important;
+}
+
 .introSection {
   margin-top: 120px;
-  margin-bottom: 70px;
+  margin-bottom: 120px;
 }
 
 .section {
@@ -48,10 +52,22 @@ img {
   margin: 12px 0;
 }
 
+.ternaryTitle {
+  color: var(--teal);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
 .mainDescription {
   margin-bottom: 30px;
   color: var(--shark);
   font-size: 18px;
+}
+
+.bodyDescription {
+  color: var(--shark);
+  font-size: 16px;
 }
 
 .primaryButton {
@@ -68,9 +84,30 @@ img {
   }
 }
 
+.iconsSize {
+  font-size: 50px;
+  color: var(--teal);
+}
+
+.borderHighlight {
+  border-top: 10px solid var(--teal) !important;
+}
+
 .active {
   color: var(--egg-blue) !important;
 }
 
+.anchor {
+  display: flex;
+  align-items: center;
+  color: var(--egg-blue);
+}
+
 @media only screen and (max-width: 992px) {
+  .mainTitle {
+    color: var(--teal);
+    font-size: 36px;
+    font-weight: 700;
+    margin: 12px 0;
+  }
 }

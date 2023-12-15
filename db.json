@@ -12,62 +12,99 @@
     {
       "id": 1,
       "name": "Laptop",
+      "description": "test description",
       "quantity": 20,
       "addedDate": "15-01-2023"
     },
     {
       "id": 2,
       "name": "Desk Chair",
+      "description": "test description",
       "quantity": 30,
       "addedDate": "02-02-2023"
     },
     {
       "id": 3,
       "name": "Conference Table",
+      "description": "test description",
       "quantity": 5,
       "addedDate": "10-03-2023"
     },
     {
       "id": 4,
       "name": "Printer",
+      "description": "test description",
       "quantity": 10,
       "addedDate": "05-04-2023"
     },
     {
       "id": 5,
       "name": "Whiteboard",
+      "description": "test description",
       "quantity": 15,
       "addedDate": "20-05-2023"
     },
     {
       "id": 6,
       "name": "Office Plants",
+      "description": "test description",
       "quantity": 8,
       "addedDate": "08-06-2023"
     },
     {
       "id": 7,
       "name": "File Cabinets",
+      "description": "test description",
       "quantity": 12,
       "addedDate": "15-07-2023"
     },
     {
       "id": 8,
       "name": "Desk Lamps",
+      "description": "test description",
       "quantity": 25,
       "addedDate": "22-08-2023"
     },
     {
       "id": 9,
       "name": "Keyboard and Mouse Set",
+      "description": "test description",
       "quantity": 40,
       "addedDate": "18-09-2023"
     },
     {
       "id": 10,
       "name": "Telephone System",
+      "description": "test description",
       "quantity": 5,
       "addedDate": "12-10-2023"
+    },
+    {
+      "name": "test",
+      "description": "test description 2",
+      "quantity": "5",
+      "addedDate": "12-12-2023",
+      "id": 11
+    },
+    {
+      "name": "tester",
+      "description": "1233",
+      "quantity": "1",
+      "id": 12
+    },
+    {
+      "name": "Quality Stuff",
+      "description": "The most ambitious stuff",
+      "quantity": "2",
+      "addedDate": "2023-12-16",
+      "id": 13
+    },
+    {
+      "name": "dadsad",
+      "description": "rqwrqwr",
+      "quantity": "2",
+      "addedDate": "2023-12-09",
+      "id": 14
     }
   ]
 }
