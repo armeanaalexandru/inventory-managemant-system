@@ -91,7 +91,7 @@ export function Authentication() {
                   <p className="mainTitle">
                     {isRegister ? "Register" : "Log into your account"}
                   </p>
-                  <Form onSubmit={handleSubmit(handleAuthSubmit)}>
+                  <Form noValidate onSubmit={handleSubmit(handleAuthSubmit)}>
                     <Row>
                       {isRegister && (
                         <>

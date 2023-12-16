@@ -14,8 +14,8 @@ import "./App.css";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthContextProvider>
+    <AuthContextProvider>
+      <BrowserRouter>
         <MainNav />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,8 +25,8 @@ export default function App() {
           <Route path="login" element={<Authentication />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </AuthContextProvider>
-      <ToastContainer />
-    </BrowserRouter>
+        <ToastContainer />
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }

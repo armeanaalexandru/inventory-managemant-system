@@ -6,17 +6,18 @@
       "firstName": "Alexandru",
       "lastName": "Armeana",
       "id": 1
+    },
+    {
+      "email": "oana.cosa@gmail.com",
+      "password": "$2a$10$43K8WrIQcEcLdBMx9hDWEOgRC6tIMUN9ZfUlQlNeOAwVWSD01ypRq",
+      "firstName": "Oana",
+      "lastName": "Cosa",
+      "id": 2
     }
   ],
   "items": [
     {
-      "id": 1,
-      "name": "Laptop",
-      "quantity": 20,
-      "addedDate": "15-01-2023",
-      "serialNumber": "LT001"
-    },
-    {
+      "userId": 1,
       "id": 2,
       "name": "Desk Chair",
       "quantity": 30,
@@ -24,6 +25,7 @@
       "serialNumber": "DC002"
     },
     {
+      "userId": 1,
       "id": 3,
       "name": "Conference Table",
       "quantity": 5,
@@ -31,13 +33,7 @@
       "serialNumber": "CT003"
     },
     {
-      "id": 4,
-      "name": "Printer",
-      "quantity": 10,
-      "addedDate": "05-04-2023",
-      "serialNumber": "PR004"
-    },
-    {
+      "userId": 1,
       "id": 5,
       "name": "Whiteboard",
       "quantity": 15,
@@ -45,13 +41,7 @@
       "serialNumber": "WB005"
     },
     {
-      "id": 6,
-      "name": "Office Plants",
-      "quantity": 8,
-      "addedDate": "08-06-2023",
-      "serialNumber": "OP006"
-    },
-    {
+      "userId": 1,
       "id": 7,
       "name": "File Cabinets",
       "quantity": 12,
@@ -59,6 +49,7 @@
       "serialNumber": "FC007"
     },
     {
+      "userId": 1,
       "id": 8,
       "name": "Desk Lamps",
       "quantity": 25,
@@ -66,11 +57,21 @@
       "serialNumber": "DL008"
     },
     {
+      "userId": 1,
       "id": 9,
       "name": "Keyboard and Mouse Set",
       "quantity": 40,
       "addedDate": "18-09-2023",
       "serialNumber": "KM009"
+    },
+    {
+      "userId": 2,
+      "name": "MagSafe",
+      "description": "For our employees",
+      "quantity": "6",
+      "addedDate": "2023-12-16",
+      "serialNumber": "HE73913",
+      "id": 10
     }
   ]
 }

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
 const initialAuth = {
   accessToken: null,
@@ -8,25 +9,24 @@ const initialAuth = {
 const AuthContext = createContext(null);
 
 export function AuthContextProvider({ children }) {
-  const [auth, setAuth] = useState(() => {
-    const fromStorage = localStorage.getItem("auth");
-    return fromStorage ? JSON.parse(fromStorage) : initialAuth;
-  });
+  const [auth, setAuth] = useLocalStorageState("auth", initialAuth);
 
-  function login(data) {
-    localStorage.setItem("auth", JSON.stringify(data));
-    setAuth(data);
-  }
-
-  function logout() {
-    localStorage.removeItem("auth");
-    setAuth(initialAuth);
-  }
-  return (
-    <AuthContext.Provider value={{ ...auth, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const login = useCallback(
+    (data) => {
+      setAuth(data);
+    },
+    [setAuth]
   );
+
+  const logout = useCallback(() => {
+    setAuth(initialAuth);
+  }, [setAuth]);
+
+  const value = useMemo(() => {
+    return { ...auth, login, logout };
+  }, [auth, login, logout]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {

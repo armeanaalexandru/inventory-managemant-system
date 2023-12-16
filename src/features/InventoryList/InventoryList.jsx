@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useAuthContext } from "../Authentication/AuthContext";
 import {
   Container,
   Row,
@@ -18,6 +19,7 @@ export function InventoryList() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [validated, setValidated] = useState(false);
+  const { accessToken, user } = useAuthContext();
   const [formData, setFormData] = useState({
     itemName: "",
     itemDescription: "",
@@ -28,9 +30,14 @@ export function InventoryList() {
 
   useEffect(() => {
     async function getItemList() {
-      const data = await fetch("http://localhost:3000/items").then((response) =>
-        response.json()
-      );
+      const data = await fetch(
+        `http://localhost:3000/items?userId=${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      ).then((response) => response.json());
       setItems(data);
     }
     getItemList();
@@ -65,6 +72,7 @@ export function InventoryList() {
       e.preventDefault();
 
       const newItem = {
+        userId: user.id,
         name: formData.itemName,
         description: formData.itemDescription,
         quantity: formData.itemQuantity,
@@ -77,6 +85,7 @@ export function InventoryList() {
           method: "POST",
           headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify(newItem),
         });
@@ -115,6 +124,7 @@ export function InventoryList() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -134,6 +144,10 @@ export function InventoryList() {
     } finally {
       handleCloseDeleteModal();
     }
+  }
+
+  if (typeof items !== "object") {
+    return "Please login and try again.";
   }
 
   return (
