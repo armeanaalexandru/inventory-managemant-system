@@ -5,6 +5,7 @@
   --gray: #878787;
   --shark: #202022;
   --white: #fff;
+  --error: #ff5c5c;
 
   color: var(--shark);
   font-family: Verdana, Geneva, Tahoma, sans-serif;

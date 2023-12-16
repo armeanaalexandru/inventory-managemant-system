@@ -7,6 +7,7 @@ import { Authentication } from "../features/Authentication/Authentication";
 import { InventoryList } from "../features/InventoryList/InventoryList";
 import { NotFound } from "../features/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
+import { AuthContextProvider } from "../features/Authentication/AuthContext";
 
 import "react-toastify/dist/ReactToastify.min.css";
 import "./App.css";
@@ -14,14 +15,17 @@ import "./App.css";
 export default function App() {
   return (
     <BrowserRouter>
-      <MainNav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="inventory" element={<InventoryList />} />
-        <Route path="about-us" element={<AboutUs />} />
-        <Route path="authentication" element={<Authentication />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AuthContextProvider>
+        <MainNav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="inventory" element={<InventoryList />} />
+          <Route path="about-us" element={<AboutUs />} />
+          <Route path="register" element={<Authentication />} />
+          <Route path="login" element={<Authentication />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthContextProvider>
       <ToastContainer />
     </BrowserRouter>
   );

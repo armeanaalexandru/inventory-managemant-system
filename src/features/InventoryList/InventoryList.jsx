@@ -50,12 +50,8 @@ export function InventoryList() {
     setItemToDelete(itemObject);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   async function handleAddItem(e) {
@@ -234,7 +230,7 @@ export function InventoryList() {
                 placeholder="Enter item serial number"
                 name="itemSerialNumber"
                 value={formData.itemSerialNumber}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="addItemName">
@@ -244,7 +240,7 @@ export function InventoryList() {
                 placeholder="Enter item name"
                 name="itemName"
                 value={formData.itemName}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="addItemDescription">
@@ -254,7 +250,7 @@ export function InventoryList() {
                 placeholder="Enter item description"
                 name="itemDescription"
                 value={formData.itemDescription}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Form.Group>
             <Row>
@@ -267,7 +263,7 @@ export function InventoryList() {
                     placeholder="Enter item quantity"
                     name="itemQuantity"
                     value={formData.itemQuantity}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
               </Col>
@@ -279,7 +275,7 @@ export function InventoryList() {
                     type="date"
                     name="itemDate"
                     value={formData.itemDate}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
               </Col>
