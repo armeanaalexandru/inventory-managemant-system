@@ -11,7 +11,10 @@ export function Home() {
           <Row>
             <Col lg={{ order: "last" }}>
               <div className="h-100 d-flex justify-content-center align-items-center">
-                <img src="./images/placeholder-img.png" alt="placeholder" />
+                <img
+                  src="./images/ventoroo-inventory.png"
+                  alt="ventoroo-inventory"
+                />
               </div>
             </Col>
             <Col lg={{ span: 5, order: "first" }}>
@@ -22,7 +25,7 @@ export function Home() {
                 brings efficiency to your daily operations.
               </p>
 
-              <NavLink className="primaryButton" to="/authentication">
+              <NavLink className="primaryButton" to="/inventory">
                 Start Now
               </NavLink>
             </Col>
@@ -41,7 +44,7 @@ export function Home() {
                     resource efficiency.
                   </p>
                 </div>
-                <NavLink className="anchor" to="/authentication">
+                <NavLink className="anchor" to="/inventory">
                   <span>Find out more</span>{" "}
                   <i className="bi bi-chevron-right"></i>
                 </NavLink>
@@ -56,7 +59,7 @@ export function Home() {
                     ensuring real-time visibility of product availability.
                   </p>
                 </div>
-                <NavLink className="anchor" to="/authentication">
+                <NavLink className="anchor" to="/inventory">
                   <span>Find out more</span>{" "}
                   <i className="bi bi-chevron-right"></i>
                 </NavLink>
@@ -71,7 +74,7 @@ export function Home() {
                     ensuring precision and minimizing stock discrepancies.
                   </p>
                 </div>
-                <NavLink className="anchor" to="/authentication">
+                <NavLink className="anchor" to="/inventory">
                   <span>Find out more</span>{" "}
                   <i className="bi bi-chevron-right"></i>
                 </NavLink>
@@ -86,7 +89,7 @@ export function Home() {
                     team members, promoting quick adoption and seamless use.
                   </p>
                 </div>
-                <NavLink className="anchor" to="/authentication">
+                <NavLink className="anchor" to="/inventory">
                   <span>Find out more</span>{" "}
                   <i className="bi bi-chevron-right"></i>
                 </NavLink>

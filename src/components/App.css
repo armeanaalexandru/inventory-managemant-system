@@ -133,6 +133,11 @@ img {
 }
 
 @media only screen and (max-width: 992px) {
+  .introSection {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
   .mainTitle {
     color: var(--teal);
     font-size: 36px;

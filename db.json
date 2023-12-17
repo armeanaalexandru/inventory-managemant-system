@@ -13,9 +13,97 @@
       "firstName": "Alex",
       "lastName": "Armeana",
       "id": 2
+    },
+    {
+      "email": "ion@glanetasu.com",
+      "password": "$2a$10$e8HpZjeUByJH090zBGBgFeoqVPaDttrhaNeir6OvUF1ViNQVZGnIC",
+      "firstName": "Ionut",
+      "lastName": "Glanetasu",
+      "id": 3
     }
   ],
   "items": [
+    {
+      "id": 1,
+      "name": "Laptop",
+      "quantity": 20,
+      "addedDate": "2023-01-15",
+      "serialNumber": "LT001",
+      "userId": 1,
+      "description": "Portable computer device"
+    },
+    {
+      "id": 2,
+      "name": "Desk Chair",
+      "quantity": 30,
+      "addedDate": "2023-02-02",
+      "serialNumber": "DC002",
+      "userId": 1,
+      "description": "Comfortable office chair"
+    },
+    {
+      "id": 3,
+      "name": "Conference Table",
+      "quantity": 5,
+      "addedDate": "2023-03-10",
+      "serialNumber": "CT003",
+      "userId": 1,
+      "description": "Large table for meetings"
+    },
+    {
+      "id": 4,
+      "name": "Printer",
+      "quantity": 10,
+      "addedDate": "2023-04-05",
+      "serialNumber": "PR004",
+      "userId": 1,
+      "description": "Office printing device"
+    },
+    {
+      "id": 5,
+      "name": "Whiteboard",
+      "quantity": 15,
+      "addedDate": "2023-05-20",
+      "serialNumber": "WB005",
+      "userId": 1,
+      "description": "Writable board for presentations"
+    },
+    {
+      "id": 6,
+      "name": "Office Plants",
+      "quantity": 8,
+      "addedDate": "2023-06-08",
+      "serialNumber": "OP006",
+      "userId": 1,
+      "description": "Green plants for workspace"
+    },
+    {
+      "id": 7,
+      "name": "File Cabinets",
+      "quantity": 12,
+      "addedDate": "2023-07-15",
+      "serialNumber": "FC007",
+      "userId": 1,
+      "description": "Storage cabinets for files"
+    },
+    {
+      "id": 8,
+      "name": "Desk Lamps",
+      "quantity": 25,
+      "addedDate": "2023-08-22",
+      "serialNumber": "DL008",
+      "userId": 1,
+      "description": "Lighting for office desks"
+    },
+    {
+      "id": 9,
+      "name": "Keyboard and Mouse Set",
+      "quantity": 40,
+      "addedDate": "2023-09-18",
+      "serialNumber": "KM009",
+      "userId": 1,
+      "description": "Input devices for computers"
+    },
     {
       "userId": 2,
       "name": "MagSafe",
@@ -24,15 +112,6 @@
       "addedDate": "2023-12-16",
       "serialNumber": "HE73913",
       "id": 10
-    },
-    {
-      "userId": 1,
-      "name": "iPhone 13",
-      "description": "For the managers. Built in with security technologies.",
-      "quantity": "3",
-      "addedDate": "2023-12-16",
-      "serialNumber": "APPIPH1320399",
-      "id": 13
     }
   ]
 }

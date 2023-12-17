@@ -34,7 +34,7 @@ export function MainNav() {
           )}
           {user && (
             <Nav className={styles.authNavigation}>
-              <NavLink to="profile">Hello, {user.firstName}!</NavLink>
+              <NavLink>Hello, {user.firstName}!</NavLink>
               <NavLink to="login" onClick={() => logout()}>
                 Logout
               </NavLink>
