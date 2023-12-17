@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { object, string, boolean, ref } from "yup";
@@ -30,7 +30,8 @@ const registerSchema = object({
 const loginSchema = object(commonSchema);
 
 export function Authentication() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const navigate = useNavigate();
   let isRegister = false;
   if (pathname === "/register") {
     isRegister = true;
@@ -77,6 +78,9 @@ export function Authentication() {
     } else {
       toast.success("You have logged in successfully");
       login(data);
+
+      const path = state?.from ?? "/";
+      navigate(path);
     }
   }
 

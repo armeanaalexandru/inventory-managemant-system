@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../Authentication/AuthContext";
+import { useApi } from "../../hooks/useApi";
 import {
   Container,
   Row,
@@ -17,9 +18,13 @@ export function InventoryList() {
   const [items, setItems] = useState(null);
   const [showInvetoryModal, setShowInvetoryModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [itemEdit, setItemEdit] = useState(null);
   const [validated, setValidated] = useState(false);
+  const [editValidated, setEvitValidated] = useState(false);
   const { accessToken, user } = useAuthContext();
+  const { get, post, patch, remove } = useApi("items");
   const [formData, setFormData] = useState({
     itemName: "",
     itemDescription: "",
@@ -27,40 +32,64 @@ export function InventoryList() {
     itemDate: "",
     itemSerialNumber: "",
   });
+  const [editFormData, setEditFormData] = useState({
+    itemName: "",
+    itemDescription: "",
+    itemQuantity: "",
+    itemDate: "",
+    itemSerialNumber: "",
+  });
 
-  useEffect(() => {
-    async function getItemList() {
-      const data = await fetch(
-        `http://localhost:3000/items?userId=${user.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      ).then((response) => response.json());
-      setItems(data);
-    }
-    getItemList();
-  }, []);
-
-  const handleCloseModal = () => setShowInvetoryModal(false);
+  /*--- Modal Handles ---*/
   const handleShowModal = () => setShowInvetoryModal(true);
-
-  const handleCloseDeleteModal = () => {
-    setShowDeleteModal(false);
-    setItemToDelete(null);
-  };
+  const handleCloseModal = () => setShowInvetoryModal(false);
 
   const handleShowDeleteModal = (itemId) => {
     const itemObject = items.find((item) => item.id === itemId);
     setShowDeleteModal(true);
     setItemToDelete(itemObject);
   };
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setItemToDelete(null);
+  };
+
+  const handleShowEditModal = (itemId) => {
+    const itemObject = items.find((item) => item.id === itemId);
+    setShowEditModal(true);
+    setItemEdit(itemObject);
+
+    setEditFormData({
+      itemName: itemObject?.name || "",
+      itemDescription: itemObject?.description || "",
+      itemQuantity: itemObject?.quantity || "",
+      itemDate: itemObject?.addedDate || "",
+      itemSerialNumber: itemObject?.serialNumber || "",
+    });
+  };
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setItemEdit(null);
+  };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleEditInputChange = (e) => {
+    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+  };
+
+  /*--- Get Items ---*/
+  useEffect(() => {
+    async function getItemList() {
+      const data = await get({ userId: user.id }, null, { accessToken });
+      setItems(data);
+    }
+    getItemList();
+  }, [accessToken, user, get]);
+
+  /*--- Add Item Handle ---*/
   async function handleAddItem(e) {
     const addNewItemForm = e.currentTarget;
 
@@ -80,70 +109,65 @@ export function InventoryList() {
         serialNumber: formData.itemSerialNumber,
       };
 
-      try {
-        const itemData = await fetch("http://localhost:3000/items", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(newItem),
-        });
+      const itemData = await post(newItem, { accessToken });
 
-        if (!itemData.ok) {
-          toast.error("Failed to add item");
-          throw new Error("Failed to add item");
-        }
+      setItems((prevItems) => [...prevItems, itemData]);
+      toast.success(`${formData.itemName} has been added to the list.`);
+      handleCloseModal();
 
-        const addedItem = await itemData.json();
-
-        setItems((prevItems) => [...prevItems, addedItem]);
-        toast.success(`${formData.itemName} has been added to the list.`);
-        handleCloseModal();
-
-        setFormData({
-          itemName: "",
-          itemDescription: "",
-          itemQuantity: "",
-          itemDate: "",
-          itemSerialNumber: "",
-        });
-      } catch (error) {
-        console.error("Error adding item:", error);
-        toast.error(error);
-      }
+      setFormData({
+        itemName: "",
+        itemDescription: "",
+        itemQuantity: "",
+        itemDate: "",
+        itemSerialNumber: "",
+      });
     }
     setValidated(true);
   }
 
-  async function handleDeleteItemConfirmed() {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/items/${itemToDelete.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+  /*--- Edit Item Handle ----*/
+  async function handleEditItemSubmit(e) {
+    const editItemForm = e.currentTarget;
 
-      if (!response.ok) {
-        throw new Error("Failed to delete item");
-      }
+    if (editItemForm.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      toast.error("Please fill the required fields.");
+    } else {
+      e.preventDefault();
+
+      const editedItem = {
+        userId: user.id,
+        name: editFormData.itemName,
+        description: editFormData.itemDescription,
+        quantity: editFormData.itemQuantity,
+        addedDate: editFormData.itemDate,
+        serialNumber: editFormData.itemSerialNumber,
+      };
+
+      const editedData = await patch(itemEdit.id, editedItem, { accessToken });
 
       setItems((prevItems) =>
-        prevItems.filter((item) => item.id !== itemToDelete.id)
+        prevItems.map((item) => (item.id === itemEdit.id ? editedData : item))
       );
 
-      toast.success(`${itemToDelete.name} has been deleted.`);
-    } catch (error) {
-      toast.error("Failed to delete item.");
-      console.error("Error deleting item:", error);
-    } finally {
-      handleCloseDeleteModal();
+      toast.success(`${itemEdit.name} has been updated.`);
+      handleCloseEditModal();
     }
+    setEvitValidated(true);
+  }
+
+  /*--- Delete Item Handle ---*/
+  async function handleDeleteItemConfirmed() {
+    await remove(itemToDelete.id, { accessToken });
+
+    setItems((prevItems) =>
+      prevItems.filter((item) => item.id !== itemToDelete.id)
+    );
+
+    toast.success(`${itemToDelete.name} has been deleted.`);
+    handleCloseDeleteModal();
   }
 
   if (typeof items !== "object") {
@@ -161,7 +185,7 @@ export function InventoryList() {
                 This is your current item list. Add new items or view/delete
                 items from the action buttons.
               </div>
-              <Button variant="primary" onClick={handleShowModal}>
+              <Button className="primaryButton" onClick={handleShowModal}>
                 <i className="bi bi-clipboard-plus"></i> Add Item
               </Button>
             </Col>
@@ -205,14 +229,19 @@ export function InventoryList() {
                             {item.addedDate}
                           </td>
                           <td className="text-center align-middle">
-                            <Button variant="primary">View</Button>
+                            <Button
+                              className="viewButton"
+                              onClick={() => handleShowEditModal(item.id)}
+                            >
+                              <i className="bi bi-pencil"></i> Edit
+                            </Button>
                           </td>
                           <td className="text-center align-middle">
                             <Button
-                              variant="danger"
+                              className="deleteButton"
                               onClick={() => handleShowDeleteModal(item.id)}
                             >
-                              Delete
+                              <i className="bi bi-trash"></i> Delete
                             </Button>
                           </td>
                         </tr>
@@ -299,7 +328,7 @@ export function InventoryList() {
                 <Button variant="secondary" onClick={handleCloseModal}>
                   Close
                 </Button>
-                <Button variant="primary" type="submit">
+                <Button className="primaryButton" type="submit">
                   Add Item
                 </Button>
               </Col>
@@ -318,11 +347,98 @@ export function InventoryList() {
               <Button variant="secondary" onClick={handleCloseDeleteModal}>
                 Cancel
               </Button>
-              <Button variant="danger" onClick={handleDeleteItemConfirmed}>
+              <Button
+                className="deleteButton"
+                onClick={handleDeleteItemConfirmed}
+              >
                 Delete
               </Button>
             </Col>
           </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal show={showEditModal} onHide={handleCloseEditModal} centered>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body>
+          <div className="text-center">
+            <p className="secondaryTitle">Edit Item</p>
+            <p>
+              You are currently editing: <b>{itemEdit?.name}</b>
+            </p>
+          </div>
+          <Form
+            noValidate
+            validated={editValidated}
+            onSubmit={handleEditItemSubmit}
+          >
+            <Form.Group className="mb-3" controlId="editSerialNumberName">
+              <Form.Label>Serial Number</Form.Label>
+              <Form.Control
+                required
+                placeholder="Enter item serial number"
+                name="itemSerialNumber"
+                value={editFormData.itemSerialNumber}
+                onChange={handleEditInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="editItemName">
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control
+                required
+                placeholder="Enter item name"
+                name="itemName"
+                value={editFormData.itemName}
+                onChange={handleEditInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="editItemDescription">
+              <Form.Label>Item Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="Enter item description"
+                name="itemDescription"
+                value={editFormData.itemDescription}
+                onChange={handleEditInputChange}
+              />
+            </Form.Group>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3" controlId="editItemQuantity">
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control
+                    required
+                    type="number"
+                    placeholder="Enter item quantity"
+                    name="itemQuantity"
+                    value={editFormData.itemQuantity}
+                    onChange={handleEditInputChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3" controlId="editItemDate">
+                  <Form.Label>Date Added</Form.Label>
+                  <Form.Control
+                    required
+                    type="date"
+                    name="itemDate"
+                    value={editFormData.itemDate}
+                    onChange={handleEditInputChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-end gap-2">
+                <Button variant="secondary" onClick={handleCloseEditModal}>
+                  Close
+                </Button>
+                <Button className="viewButton" type="submit">
+                  <i className="bi bi-check"></i> Save
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </Modal.Body>
       </Modal>
     </>

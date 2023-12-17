@@ -8,62 +8,14 @@
       "id": 1
     },
     {
-      "email": "oana.cosa@gmail.com",
+      "email": "armeana.alexandru@gmail.com",
       "password": "$2a$10$43K8WrIQcEcLdBMx9hDWEOgRC6tIMUN9ZfUlQlNeOAwVWSD01ypRq",
-      "firstName": "Oana",
-      "lastName": "Cosa",
+      "firstName": "Alex",
+      "lastName": "Armeana",
       "id": 2
     }
   ],
   "items": [
-    {
-      "userId": 1,
-      "id": 2,
-      "name": "Desk Chair",
-      "quantity": 30,
-      "addedDate": "02-02-2023",
-      "serialNumber": "DC002"
-    },
-    {
-      "userId": 1,
-      "id": 3,
-      "name": "Conference Table",
-      "quantity": 5,
-      "addedDate": "10-03-2023",
-      "serialNumber": "CT003"
-    },
-    {
-      "userId": 1,
-      "id": 5,
-      "name": "Whiteboard",
-      "quantity": 15,
-      "addedDate": "20-05-2023",
-      "serialNumber": "WB005"
-    },
-    {
-      "userId": 1,
-      "id": 7,
-      "name": "File Cabinets",
-      "quantity": 12,
-      "addedDate": "15-07-2023",
-      "serialNumber": "FC007"
-    },
-    {
-      "userId": 1,
-      "id": 8,
-      "name": "Desk Lamps",
-      "quantity": 25,
-      "addedDate": "22-08-2023",
-      "serialNumber": "DL008"
-    },
-    {
-      "userId": 1,
-      "id": 9,
-      "name": "Keyboard and Mouse Set",
-      "quantity": 40,
-      "addedDate": "18-09-2023",
-      "serialNumber": "KM009"
-    },
     {
       "userId": 2,
       "name": "MagSafe",
@@ -72,6 +24,15 @@
       "addedDate": "2023-12-16",
       "serialNumber": "HE73913",
       "id": 10
+    },
+    {
+      "userId": 1,
+      "name": "iPhone 13",
+      "description": "For the managers. Built in with security technologies.",
+      "quantity": "3",
+      "addedDate": "2023-12-16",
+      "serialNumber": "APPIPH1320399",
+      "id": 13
     }
   ]
 }

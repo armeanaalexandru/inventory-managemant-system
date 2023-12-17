@@ -73,15 +73,43 @@ img {
 
 .primaryButton {
   padding: 15px 30px;
-  background-color: var(--teal);
-  color: var(--white);
+  background-color: var(--teal) !important;
+  color: var(--white) !important;
   text-decoration: none;
-  border: 1px solid var(--teal);
-  border-radius: 5px;
+  border: 1px solid var(--teal) !important;
+  border-radius: 5px !important;
 
   &:hover {
-    background-color: var(--white);
-    color: var(--teal);
+    background-color: var(--white) !important;
+    color: var(--teal) !important;
+  }
+}
+
+.viewButton {
+  padding: 15px 30px;
+  background-color: var(--egg-blue) !important;
+  color: var(--white) !important;
+  text-decoration: none;
+  border: 1px solid var(--egg-blue) !important;
+  border-radius: 5px !important;
+
+  &:hover {
+    background-color: var(--white) !important;
+    color: var(--egg-blue) !important;
+  }
+}
+
+.deleteButton {
+  padding: 15px 30px;
+  background-color: var(--error) !important;
+  color: var(--white) !important;
+  text-decoration: none;
+  border: 1px solid var(--error) !important;
+  border-radius: 5px !important;
+
+  &:hover {
+    background-color: var(--white) !important;
+    color: var(--error) !important;
   }
 }
 
