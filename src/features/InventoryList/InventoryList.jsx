@@ -133,7 +133,7 @@ export function InventoryList() {
     if (editItemForm.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-      toast.error("Please fill the required fields.");
+      toast.error("Please fill the required fields");
     } else {
       e.preventDefault();
 
@@ -152,7 +152,7 @@ export function InventoryList() {
         prevItems.map((item) => (item.id === itemEdit.id ? editedData : item))
       );
 
-      toast.success(`${itemEdit.name} has been updated.`);
+      toast.success(`${itemEdit.name} has been updated`);
       handleCloseEditModal();
     }
     setEvitValidated(true);

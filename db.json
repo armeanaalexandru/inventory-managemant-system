@@ -5,6 +5,8 @@
       "password": "$2a$10$y2kTFIBCwUSLP7gPYzq/POQN49tjeEcG/5WN.Z94IQ9qoWchbX0n2",
       "firstName": "Alexandru",
       "lastName": "Armeana",
+      "job": "Frontend Developer",
+      "phone": "0741000000",
       "id": 1
     },
     {
@@ -12,6 +14,8 @@
       "password": "$2a$10$43K8WrIQcEcLdBMx9hDWEOgRC6tIMUN9ZfUlQlNeOAwVWSD01ypRq",
       "firstName": "Alex",
       "lastName": "Armeana",
+      "job": "",
+      "phone": "",
       "id": 2
     },
     {
@@ -19,7 +23,18 @@
       "password": "$2a$10$e8HpZjeUByJH090zBGBgFeoqVPaDttrhaNeir6OvUF1ViNQVZGnIC",
       "firstName": "Ionut",
       "lastName": "Glanetasu",
+      "job": "",
+      "phone": "",
       "id": 3
+    },
+    {
+      "email": "office@pixelsolutions.ro",
+      "password": "$2a$10$8mIBVz9NLQ28c/IYeRKiUOKNaZ93PjTlqqzdA9Go44tOqSvHkMRg.",
+      "firstName": "Alexandru",
+      "lastName": "Test",
+      "job": "",
+      "phone": "",
+      "id": 4
     }
   ],
   "items": [

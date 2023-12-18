@@ -5,6 +5,7 @@ import { Home } from "../features/Home/Home";
 import { Authentication } from "../features/Authentication/Authentication";
 import { InventoryList } from "../features/InventoryList/InventoryList";
 import { NotFound } from "../features/NotFound/NotFound";
+import { Profile } from "../features/UserProfile/Profile";
 import { ToastContainer } from "react-toastify";
 import { AuthContextProvider } from "../features/Authentication/AuthContext";
 
@@ -29,6 +30,7 @@ export default function App() {
           />
           <Route path="register" element={<Authentication />} />
           <Route path="login" element={<Authentication />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastContainer position="bottom-center" />
