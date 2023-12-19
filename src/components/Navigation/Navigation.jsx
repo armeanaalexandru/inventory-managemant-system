@@ -15,7 +15,7 @@ export function MainNav() {
         <Navbar.Brand>
           <NavLink to="/">
             <img
-              src="./images/ventoroo-logo.png"
+              src="./images/Ventoroo-logo-full.svg"
               alt="Ventoroo Logo"
               className={styles.brandLogo}
             />
