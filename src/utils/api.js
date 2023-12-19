@@ -10,8 +10,11 @@ async function handleServerResponse(response) {
   const dataPromise = response.json();
   if (!response.ok) {
     const message = await dataPromise;
+    if (response.status === 403) {
+      return message;
+    }
     toast.error(message);
-    if (response.status === 401 || response.status === 403) {
+    if (response.status === 401) {
       throw new UnauthorizedError();
     }
   }

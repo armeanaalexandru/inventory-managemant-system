@@ -111,7 +111,12 @@ export function InventoryList() {
 
       const itemData = await post(newItem, { accessToken });
 
-      setItems((prevItems) => [...prevItems, itemData]);
+      setItems((prevItems) => {
+        if (typeof prevItems === "string") {
+          return [itemData];
+        }
+        return [...prevItems, itemData];
+      });
       toast.success(`${formData.itemName} has been added to the list.`);
       handleCloseModal();
 
@@ -170,8 +175,8 @@ export function InventoryList() {
     handleCloseDeleteModal();
   }
 
-  if (typeof items !== "object") {
-    return "Please login and try again.";
+  if (items === null) {
+    return "Loading...";
   }
 
   return (
@@ -211,7 +216,7 @@ export function InventoryList() {
                     </tr>
                   </thead>
                   <tbody>
-                    {items && items.length > 0 ? (
+                    {items && typeof items != "string" && items.length > 0 ? (
                       items?.map((item) => (
                         <tr key={item.id}>
                           <td className="text-center align-middle">

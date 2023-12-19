@@ -86,9 +86,9 @@
     {
       "id": 6,
       "name": "Office Plants",
-      "quantity": 8,
+      "quantity": "6",
       "addedDate": "2023-06-08",
-      "serialNumber": "OP006",
+      "serialNumber": "OP006RT",
       "userId": 1,
       "description": "Green plants for workspace"
     },
@@ -121,11 +121,11 @@
     },
     {
       "userId": 2,
-      "name": "MagSafe",
-      "description": "For our employees",
-      "quantity": "6",
-      "addedDate": "2023-12-16",
-      "serialNumber": "HE73913",
+      "name": "dasd",
+      "description": "",
+      "quantity": "3",
+      "addedDate": "2023-12-21",
+      "serialNumber": "APPLE038193",
       "id": 10
     }
   ]
